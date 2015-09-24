@@ -1,0 +1,21 @@
+{
+  "name": "McGo/Trainingstats",
+  "description": "PHP package to gather metrics and calculate statistics from a training TCX file.",
+  "license": "MIT",
+  "keywords": ["tcx"],
+  "authors": [
+    {
+      "name": "Mirko Haaser",
+      "email": "kontakt@mirko-haaser.de"
+    }
+  ],
+  "require": {},
+  "require-dev": {
+    "phpunit/phpunit": "4.0.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "McGo\\Trainingstats\\": "src"
+    }
+  }
+}
