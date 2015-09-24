@@ -1,4 +1,4 @@
-<?php namespace McGo\Trainingstats;
+<?php namespace Trainingstats;
 
 class Trainingstats {
 

@@ -1,5 +1,5 @@
 {
-  "name": "McGo/Trainingstats",
+  "name": "Trainingstats",
   "description": "PHP package to gather metrics and calculate statistics from a training TCX file.",
   "license": "MIT",
   "keywords": ["tcx"],
@@ -15,7 +15,7 @@
   },
   "autoload": {
     "psr-4": {
-      "McGo\\Trainingstats\\": "src"
+      "Trainingstats\\": "src"
     }
   }
 }
