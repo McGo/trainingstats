@@ -1,9 +1,11 @@
 <?php namespace Trainingstats\Parser;
 
-use Trainingstats\Exceptions\FileIsNoTCXFileException;
 use Trainingstats\Activity;
+use Trainingstats\Exceptions\FileIsNoTCXFileException;
 
 class TCXParser extends Parser {
+
+  protected $activities = array();
 
   /**
    * Parse the given file
@@ -18,7 +20,6 @@ class TCXParser extends Parser {
 
     // A TCX file could hold more than one activity, especially on multi sport
     // activities.
-    $activities = array();
 
     $xml = @simplexml_load_file($file);
     if (!$xml || !isset($xml->Activities->Activity)) {
@@ -27,7 +28,19 @@ class TCXParser extends Parser {
 
     // Parse all activities
     foreach ($xml->Activities->Activity as $activity) {
-      $activities[] = new Activity($activity);
+      $this->activities[] = new Activity($activity);
     }
+  }
+
+  public function getActivities() {
+    return $this->activities;
+  }
+
+  public function getMeasurements() {
+    $measurements = array();
+    foreach ($this->getActivities() as $activity) {
+      $measurements[] = $activity->getMeasurementSummary();
+    }
+    return $measurements;
   }
 }
