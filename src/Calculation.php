@@ -281,6 +281,19 @@ class Calculation {
     return $time / $distance;
   }
 
+  public function calculateLapDetails() {
+    if ($this->activity === NULL) {
+      throw new ActivityIsNotSetException();
+    }
+
+    $laps = $this->activity->getLaps();
+    $return = array();
+    foreach ($laps as $lap) {
+      $return[] = $lap->getStatistics();
+    }
+    return $return;
+  }
+
 
   public function calculateBasicDetails() {
     if ($this->activity === NULL) {

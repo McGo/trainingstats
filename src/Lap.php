@@ -8,18 +8,17 @@ class Lap {
    *
    * @var int
    */
-  protected $start;
+  protected $startindex;
   /**
    * The end index of the Activity points array
    *
    * @var int
    */
-  protected $end;
+  protected $endindex;
 
   protected $totaltime;
   protected $distance;
   protected $maxspeed;
-  protected $maxpace;
   protected $calories;
   protected $heartrateavg;
   protected $heartratemax;
@@ -27,14 +26,12 @@ class Lap {
 
 
   public function __construct($lapNode, $startindex, $endindex) {
-    $this->setStart($startindex);
-    $this->setEnd($endindex);
+    $this->startindex = $startindex;
+    $this->endindex = $endindex;
 
     if (isset($lapNode->DistanceMeters)) $this->distance = (float) $lapNode->DistanceMeters;
-    if (isset($lapNode->MaximumSpeed)) {
-      $this->maxspeed = (float) $lapNode->MaximumSpeed;
-      $this->maxpace = 60 / ((float) $lapNode->MaximumSpeed);
-    }
+    if (isset($lapNode->MaximumSpeed)) $this->maxspeed = (float) $lapNode->MaximumSpeed;
+
     if (isset($lapNode->Calories)) $this->calories = (float) $lapNode->Calories;
     if (isset($lapNode->AverageHeartRateBpm->Value)) $this->heartrateavg= (float) $lapNode->AverageHeartRateBpm->Value;
     if (isset($lapNode->MaximumHeartRateBpm->Value)) $this->heartratemax= (float) $lapNode->MaximumHeartRateBpm->Value;
@@ -46,27 +43,89 @@ class Lap {
    * @return int
    */
   public function getStart() {
-    return $this->start;
+    return $this->startindex;
   }
-
-  /**
-   * @param int $start
-   */
-  public function setStart($start) {
-    $this->start = $start;
-  }
-
   /**
    * @return int
    */
   public function getEnd() {
-    return $this->end;
+    return $this->endindex;
   }
 
   /**
-   * @param int $end
+   * @return float
    */
-  public function setEnd($end) {
-    $this->end = $end;
+  public function getTotaltime() {
+    return $this->totaltime;
+  }
+
+  /**
+   * @return float
+   */
+  public function getDistance() {
+    return $this->distance;
+  }
+
+  /**
+   * @return float
+   */
+  public function getMaxspeed() {
+    return $this->maxspeed;
+  }
+
+  /**
+   * @return string
+   */
+  public function getIntensity() {
+    return $this->intensity;
+  }
+
+  /**
+   * @return float
+   */
+  public function getHeartratemax() {
+    return $this->heartratemax;
+  }
+
+  /**
+   * @return float
+   */
+  public function getHeartrateavg() {
+    return $this->heartrateavg;
+  }
+
+  /**
+   * @return float
+   */
+  public function getCalories() {
+    return $this->calories;
+  }
+
+  /**
+   * @return float
+   */
+  public function getMaxpace() {
+    if ($this->getMaxspeed() > 0) {
+      return 60 / $this->maxspeed;
+    } else {
+      return 0;
+    }
+  }
+
+  public function getStatistics() {
+    return array(
+      'startindex' => $this->getStart(),
+      'endindex' => $this->getEnd(),
+      'totaltime' => $this->getTotaltime(),
+      'distance' => $this->getDistance(),
+      'maxspeed' => $this->getMaxpace(),
+      'maxpace' => $this->getMaxpace(),
+      'heartrate' => array(
+        'avg' => $this->getHeartrateavg(),
+        'max' => $this->getHeartratemax(),
+      ),
+      'intensity' => $this->getIntensity(),
+      'calories' => $this->getCalories(),
+    );
   }
 }
