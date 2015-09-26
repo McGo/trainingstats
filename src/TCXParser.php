@@ -1,9 +1,9 @@
-<?php namespace Trainingstats\Parser;
+<?php namespace Trainingstats;
 
 use Trainingstats\Activity;
 use Trainingstats\Exceptions\FileIsNoTCXFileException;
 
-class TCXParser extends Parser {
+class TCXParser {
 
   protected $activities = array();
 
