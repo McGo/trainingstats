@@ -35,12 +35,4 @@ class TCXParser extends Parser {
   public function getActivities() {
     return $this->activities;
   }
-
-  public function getMeasurements() {
-    $measurements = array();
-    foreach ($this->getActivities() as $activity) {
-      $measurements[] = $activity->getMeasurementSummary();
-    }
-    return $measurements;
-  }
 }

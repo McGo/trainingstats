@@ -49,9 +49,6 @@ class Activity {
     if (count($laps) > 0) {
       // Only set the laps if there is at least one
       $this->setLaps($laps);
-
-      // Calculate metrics
-      $this->calculateMetrics();
     }
     return $this;
   }
@@ -101,104 +98,6 @@ class Activity {
       // TODO If no speed is set, we can calculate it from the point before.
     }
     return $point;
-  }
-
-  public function calculateMetrics() {
-    $points = $this->getPoints();
-    $count = count($points);
-    $keys = array_keys($points);
-    $start = $points[$keys[0]];
-    $end = $points[$keys[count($keys) - 1]];
-
-    if ($count === 1) {
-      $this->totalDistance = $start->getDistance();
-    }
-    else {
-      // Total Distance
-      $this->totalDistance = $end->getDistance() - $start->getDistance();
-
-      // Maximum Elevation
-      $this->maxElevation = (int) max(array_map(function ($point) {
-        return $point->getElevation();
-      }, $points));
-
-      // Minimum Heartrate
-      $this->minElevation = (int) min(array_map(function ($point) {
-        return $point->getElevation();
-      }, $points));
-
-      // Maximum Heartrate
-      $this->maxHeartrate = (int) max(array_map(function ($point) {
-        return $point->getHeartRate();
-      }, $points));
-
-      // Average Heartrate
-      $values = array_map(function ($point) {
-        return $point->getHeartRate();
-      }, $points);
-      $this->avgHeartrate = array_sum($values) / $count;
-
-      // Duration
-      $this->totalDuration = $end->getTimestamp() - $start->getTimestamp();
-
-      // Moving duration
-      $movingtime = $this->getTotalDuration();
-      for ($index = $keys[0] + 1; $index < $count; $index++) {
-        $interval = $points[$index]->getTimestamp() - $points[$index - 1]->getTimestamp();
-        if ($interval > 10 || $points[$index]->getSpeed() <= 1) {
-          $movingtime -= $interval;
-        }
-      }
-      // This does not work currently ?! So movement is total
-      $this->movementDuration = $movingtime;
-      $this->movementDuration = $this->getTotalDuration();
-
-      // Average pace
-      $this->avgPace = (($this->getTotalDuration()/60) / ($this->getTotalDistance()/1000));
-
-      // Max Speed
-      $this->maxPace = (int) max(array_map(function ($point) {
-        return $point->getSpeed();
-      }, $points));
-
-      // kcal as the sum of the laps kcal
-      $kcal = 0;
-      foreach ($this->laps as $lap) {
-        // TODO kcal aus lap
-      }
-    }
-
-  }
-
-  public function getMeasurementSummary() {
-    // schnellste strecken ()
-    // zeit in heartratezone ()
-    // aufstieg
-    // abstieg
-    // min höhe
-    // max höhe
-    // wetter
-
-    return array(
-      'distance' => $this->getTotalDistance(),
-      'duration' => array(
-        'total' => $this->getTotalDuration(),
-        'movement' => $this->getMovementDuration(),
-      ),
-      'heartrate' => array(
-        'avg' => $this->getAvgHeartrate(),
-        'max' => $this->getMaxHeartrate(),
-      ),
-      'pace' => array(
-        'avg' => $this->getAvgPace(),
-        'max' => $this->getMaxPace(),
-      ),
-      'elevation' => array(
-        'max' => $this->getMaxElevation(),
-        'min' => $this->getMinElevation(),
-      ),
-      'kcal' => $this->getKcal(),
-    );
   }
 
   public function addPoint(Point $point) {
