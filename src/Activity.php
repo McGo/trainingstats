@@ -64,9 +64,10 @@ class Activity {
   }
 
   protected function parseLap(\SimpleXMLElement $lapNode) {
-    $startIndex = count($this->getPoints());
+    $startindex = count($this->getPoints());
     $this->parseTrack($lapNode->Track);
-    return new Lap($startIndex, count($this->getPoints()) - 1);
+    $endindex = count($this->getPoints()) -1 ;
+    return new Lap($lapNode, $startindex, $endindex);
   }
 
   protected function parseTrack(\SimpleXMLElement $trackNode) {
