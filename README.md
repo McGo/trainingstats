@@ -18,10 +18,12 @@ $activities = $parser->getActivities();
 foreach ($activities as $activity) {
   $calculation = new Calculation($activity);
   try {
+  $details = $calculation->calculateBasicDetails();
     $splits = $calculation->calculateSplits();
+    $laps = $calculation->calculateLapDetails();
     $distances = $calculation->calculateBestDistances();
     $times = $calculation->calculateBestTimes();
-    $details = $calculation->calculateBasicDetails();
+
   }
   catch (ActivityIsNotSetException $e) {
     // Do what you want to do if the file is tcx but has no activities
