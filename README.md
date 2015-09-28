@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/McGo/trainingstats.svg)](https://travis-ci.org/McGo/trainingstats)
 # Trainingstats
 PHP package to gather metrics and calculate statistics from a training TCX file.
 
@@ -10,10 +11,13 @@ Simply install the package via composer or drop it in manually and add the autol
 There are two classes that are important to be aware of. The parsing is done by TCXParser() which leads to an object that stores activities and the accoring data. You could use the second Class Calculation() on the parsers activity then to check details.
 
 ### Parse a tcx file
+```
 $parser = new TCXParser();
 $parser->parse('/path/to/tcx/file.tcx');
+```
 
 ### Calculate details from the parser object
+```
 $activities = $parser->getActivities();
 foreach ($activities as $activity) {
   $calculation = new Calculation($activity);
@@ -32,6 +36,7 @@ foreach ($activities as $activity) {
     // Handle the situation when the file is not a tcx file
   }
 }
+```
 
 ## To Do
 
@@ -39,4 +44,4 @@ foreach ($activities as $activity) {
 * Add Heartratezone calculation
 * Add kcal calculation
 
-[![Build Status](https://travis-ci.org/McGo/trainingstats.svg)](https://travis-ci.org/McGo/trainingstats)
+
