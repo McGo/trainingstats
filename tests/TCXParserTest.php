@@ -1,6 +1,6 @@
 <?php
 
-use Trainingstats\Parser\TCXParser;
+use Trainingstats\TCXParser;
 
 class TCXParserTest extends PHPUnit_Framework_TestCase {
 
